@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  database:
+    build:
+      dockerfile: database/Dockerfile
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    
+  golang_part:
+    build:
+      dockerfile: service/Dockerfile
+    tty: true
+    depends_on:
+      - database
+    deploy:
+      restart_policy:
+        condition: any
